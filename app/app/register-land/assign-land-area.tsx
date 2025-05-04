@@ -16,7 +16,6 @@ import {
   usePrepareContractWrite,
   useAccount,
 } from "wagmi"
-import { sepolia } from "wagmi/chains"
 import * as z from "zod"
 
 // components
@@ -88,7 +87,7 @@ export function AssignLandArea() {
     // abi of the contract
     abi: abi,
     // chainId of the network your contract is deployed
-    chainId: sepolia.id,
+    chainId: 57054,
     // name of the function as specified in the contract
     functionName: "assignOwnership",
     // function arguments
@@ -108,7 +107,7 @@ export function AssignLandArea() {
     // abi of the contract
     abi: abi,
     // chainId of the network your contract is deployed
-    chainId: sepolia.id,
+    chainId: 57054,
     // name of the function as specified in the contract
     functionName: "landOwner",
     // function arguments
@@ -335,7 +334,7 @@ export function AssignLandArea() {
           </DialogHeader>
           <DialogFooter>
             <Link
-              href={`https://sepolia.etherscan.io/tx/${data?.hash}`}
+              href={`https://explorer.sonic.ooo/tx/${data?.hash}`}
               className={buttonVariants({ variant: "ghost" })}
               target="_blank"
               rel="noopener noreferrer"

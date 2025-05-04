@@ -16,7 +16,7 @@ import {
   usePrepareContractWrite,
   useAccount,
 } from "wagmi"
-import { polygonMumbai } from "wagmi/chains"
+// import { polygonMumbai } from "wagmi/chains"
 import * as z from "zod"
 
 // components
@@ -97,7 +97,7 @@ export function ChangeLandOwnershipArea() {
     // abi of the contract
     abi: abi,
     // chainId of the network your contract is deployed
-    chainId: polygonMumbai.id, 
+    chainId: 57054,
     // name of the function as specified in the contract
     functionName: "changeOwnership",
     // args passed to the function
@@ -118,7 +118,7 @@ export function ChangeLandOwnershipArea() {
     // abi of the contract
     abi: abi,
     // chainId of the network your contract is deployed
-    chainId: polygonMumbai.id,
+    chainId: 57054,
     // name of the function as specified in the contract
     functionName: "landOwner",
     // args passed to the function
@@ -132,11 +132,21 @@ export function ChangeLandOwnershipArea() {
 
   // form handlers
   async function onSubmit(data: ChangeLandOwnershipLandFormValues) {
-    if (
-      !changeLandOwnershipValues?.newOwnerGhanaCardId ||
-      !changeLandOwnershipValues?.landPostalCode
-    )
+    // Set the form values in state before proceeding
+    setChangeLandOwnershipValues(data)
+
+    if (!data.newOwnerGhanaCardId || !data.landPostalCode) {
+      toast({
+        className: "bg-amber-600",
+        title: "Error!",
+        description: (
+          <p className="text-white">
+            Please fill in all required fields.
+          </p>
+        ),
+      })
       return
+    }
 
     if (loIsError || (loIsSuccess && !loData)) {
       toast({
@@ -151,7 +161,7 @@ export function ChangeLandOwnershipArea() {
       return
     }
 
-    if (loData === `GHA-${changeLandOwnershipValues?.newOwnerGhanaCardId}`) {
+    if (loData === `GHA-${data.newOwnerGhanaCardId}`) {
       toast({
         className: "bg-amber-600",
         title: "Error!",
@@ -234,9 +244,9 @@ export function ChangeLandOwnershipArea() {
                           typeof e.target?.value !== "string"
                         )
                           return
-                          setChangeLandOwnershipValues((prev) => ({
+                        setChangeLandOwnershipValues((prev) => ({
                           ...(prev ?? {}),
-                          newOwnerGhanaCardId: e.target?.value,
+                          newOwnerGhanaCardId: e.target.value,
                         }))
                       }}
                     />
@@ -274,9 +284,9 @@ export function ChangeLandOwnershipArea() {
                       typeof e.target?.value !== "string"
                     )
                       return
-                      setChangeLandOwnershipValues((prev) => ({
+                    setChangeLandOwnershipValues((prev) => ({
                       ...(prev ?? {}),
-                      landPostalCode: e.target?.value,
+                      landPostalCode: e.target.value,
                     }))
                   }} />
                 </FormControl>
@@ -340,7 +350,7 @@ export function ChangeLandOwnershipArea() {
           </DialogHeader>
           <DialogFooter>
             <Link
-              href={`https://sepolia.etherscan.io/tx/${data?.hash}`}
+              href={`https://explorer.sonic.ooo/tx/${data?.hash}`}
               className={buttonVariants({ variant: "ghost" })}
               target="_blank"
               rel="noopener noreferrer"
